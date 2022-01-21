@@ -10,9 +10,9 @@
 
 void justifyAndPrintParagraph(char *paragraph, int lineLength);
 
-int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH], char numChar[MAX_NUMBER_OF_WORDS]);
+int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH], int *numChar);
 
-int nextNumOfWords(char numChar[MAX_NUMBER_OF_WORDS], int processedWords, int totalWords, int lineLength);
+int nextNumOfWords(int *numChar, int processedWords, int totalWords, int lineLength);
 
 void formatLine(char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH],
                 int wordsForNextLine, int processedWords, int lineLength);
@@ -23,13 +23,49 @@ void printLine(char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH],
                int* whiteSpaces, int wordsForNextLine, int processedWords);
 
 int main() {
-    char paragraph[] = "I am here to learn C programming. This is my first assignment. Wish me luck!";
-    char paragraph2[] = "Hi everyone. This is the 2nd assignment. Please make sure you start early as this is going to take some time!";
+    int lineLength;
 
-    justifyAndPrintParagraph(paragraph, 30);
-    justifyAndPrintParagraph(paragraph, 50);
-    justifyAndPrintParagraph(paragraph2, 25);
-    justifyAndPrintParagraph(paragraph2, 40);
+    char test1[] = "I am here to learn C programming. This is my first assignment. Wish me luck!";
+    printf("[Test Case 1 : %s]\n\n", test1);
+
+    lineLength = 30;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test1, lineLength);
+    printf("\n");
+
+    lineLength = 50;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test1, lineLength);
+    printf("\n");
+
+    char test2[] = "Many of failures are people who did not realize how "
+                   "close they were to success when they gave up.";
+    printf("[Test Case 2 : %s]\n\n", test2);
+
+    lineLength = 8;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test2, lineLength);
+    printf("\n");
+
+    lineLength = 100;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test2, lineLength);
+    printf("\n");
+
+    char test3[] = "People who succeed have momentum. The more they succeed, the more they want to succeed, "
+                   "and the more they find a way to succeed. Similarly, when someone is failing, "
+                   "the tendency is to get on a downward spiral that can even become a self-fulfilling prophecy.";
+    printf("[Test Case 3 : %s]\n\n", test3);
+
+    lineLength = 20;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test3, lineLength);
+    printf("\n");
+
+    lineLength = 150;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test3, lineLength);
+    printf("\n");
 
     return 0;
 }
@@ -37,7 +73,7 @@ int main() {
 // stores the paragraph into 2d array and formats each line to print
 void justifyAndPrintParagraph(char *paragraph, int lineLength) {
     char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH];
-    char numChar[MAX_NUMBER_OF_WORDS];
+    int numChar[MAX_NUMBER_OF_WORDS];
     int totalWords = numOfWords(paragraph, words, numChar);
     int processedWords = 0;
 
@@ -49,7 +85,7 @@ void justifyAndPrintParagraph(char *paragraph, int lineLength) {
 }
 
 // stores every word from paragraph in words array and returns the number of total words
-int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH], char numChar[MAX_NUMBER_OF_WORDS]) {
+int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH], int* numChar) {
     int indexWords = 0;
     int numOfChar = 0;
     const char *ptr = paragraph;
@@ -76,7 +112,7 @@ int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH]
 }
 
 // returns the total number of words to be printed on the next line
-int nextNumOfWords(char numChar[MAX_NUMBER_OF_WORDS], int processedWords, int totalWords, int lineLength) {
+int nextNumOfWords(int *numChar, int processedWords, int totalWords, int lineLength) {
     int index = processedWords;
     int count = 0;
     int result;
@@ -97,7 +133,7 @@ int nextNumOfWords(char numChar[MAX_NUMBER_OF_WORDS], int processedWords, int to
 }
 
 // calculates the total number of spaces needed in one line
-// and executes two functions that compute the white spaces needed in between words and print accordingly
+// and executes two functions that compute the white spaces to be inserted in between words and print accordingly
 void formatLine(char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH],
                 int wordsForNextLine, int processedWords, int lineLength) {
     int rowNum = processedWords;
