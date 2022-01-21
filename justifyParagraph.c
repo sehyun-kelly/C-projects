@@ -1,8 +1,3 @@
-//
-// Assignment 1
-// Name: Sehyun Park
-// Student ID: A01278596
-//
 #include <stdio.h>
 
 #define MAX_NUMBER_OF_WORDS (85)
