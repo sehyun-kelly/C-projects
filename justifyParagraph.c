@@ -62,6 +62,18 @@ int main() {
     justifyAndPrintParagraph(test3, lineLength);
     printf("\n");
 
+
+    char test4[] = "    I like C. I live Java. I like programming. What's not to like?    ";
+    lineLength = 12;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test4, lineLength);
+    printf("\n");
+
+    lineLength = 100;
+    printf("Line Length: %d\n", lineLength);
+    justifyAndPrintParagraph(test4, lineLength);
+    printf("\n");
+
     return 0;
 }
 
@@ -86,6 +98,9 @@ int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH]
     const char *ptr = paragraph;
 
     while (*ptr != '\0') {
+        while(*ptr == ' '){
+            ptr ++;
+        }
         numOfChar = 0;
         while (*ptr != ' ' && *ptr != '\0') {
             words[indexWords][numOfChar] = *ptr;
@@ -98,8 +113,8 @@ int numOfWords(char *paragraph, char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH]
         numChar[indexWords] = numOfChar;
         indexWords++;
 
-        if (*ptr != '\0') {
-            ptr++;
+        while (*ptr == ' ') {
+            ptr ++;
         }
     }
 
