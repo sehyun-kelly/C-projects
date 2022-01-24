@@ -18,61 +18,227 @@ void printLine(char words[MAX_NUMBER_OF_WORDS][MAX_WORD_LENGTH],
                int* whiteSpaces, int wordsForNextLine, int processedWords);
 
 int main() {
-    int lineLength;
+    //commenting out my own test cases
+//    int lineLength;
+//
+//    char test1[] = "I am here to learn C programming. This is my first assignment. Wish me luck!";
+//    printf("[Test Case 1 : %s]\n\n", test1);
+//
+//    lineLength = 30;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test1, lineLength);
+//    printf("\n");
+//
+//    lineLength = 50;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test1, lineLength);
+//    printf("\n");
+//
+//    char test2[] = "Many of failures are people who did not realize how "
+//                   "close they were to success when they gave up.";
+//    printf("[Test Case 2 : %s]\n\n", test2);
+//
+//    lineLength = 8;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test2, lineLength);
+//    printf("\n");
+//
+//    lineLength = 100;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test2, lineLength);
+//    printf("\n");
+//
+//    char test3[] = "People who succeed have momentum. The more they succeed, the more they want to succeed, "
+//                   "and the more they find a way to succeed. Similarly, when someone is failing, "
+//                   "the tendency is to get on a downward spiral that can even become a self-fulfilling prophecy.";
+//    printf("[Test Case 3 : %s]\n\n", test3);
+//
+//    lineLength = 20;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test3, lineLength);
+//    printf("\n");
+//
+//    lineLength = 150;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test3, lineLength);
+//    printf("\n");
+//
+//
+//    char test4[] = "    I like C. I live Java. I like programming. What's not to like?    ";
+//    lineLength = 12;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test4, lineLength);
+//    printf("\n");
+//
+//    lineLength = 100;
+//    printf("Line Length: %d\n", lineLength);
+//    justifyAndPrintParagraph(test4, lineLength);
+//    printf("\n");
 
-    char test1[] = "I am here to learn C programming. This is my first assignment. Wish me luck!";
-    printf("[Test Case 1 : %s]\n\n", test1);
+    char paragraph1[] = "            Hi everyone. This is          the 2nd assignment. Please make sure you start early as this is going to take some time!     ";
+    char paragraph2[] = "This is a normal sentence with no extra whitespace.";
+    char paragraph3[] = "";
+    char paragraph4[] = " This is     a sentence  with      random    whitespace.     ";
+    char paragraph5[] = "          This is a sentence with only leading whitespace and no ending whitespace.";
+    char paragraph6[] = "This is a sentence with only trailing whitespace and no leading whitespace.            ";
 
-    lineLength = 30;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test1, lineLength);
+    printf("==========================SAMPLE TEST CASES FROM ASSIGNMENT 1==========================\n\n");
+    printf("===Input string: '%s'===\n", paragraph1);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph1, 15);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph1, 25);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph1, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph1, 100);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph1, 120);
+
+    printf("\n");
+    printf("===Input string: '%s'===\n", paragraph2);
+    justifyAndPrintParagraph(paragraph2, 15);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph2, 25);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph2, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph2, 100);
+
+    printf("\n");
+    printf("===Input string: '%s'===\n", paragraph3);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph3, 15);
+
+    printf("\n");
+    printf("===Input string: '%s'===\n", paragraph4);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph4, 15);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph4, 25);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph4, 35);
+
+    printf("\n");
+    printf("===Input string: '%s'===\n", paragraph5);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph5, 15);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph5, 25);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph5, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph5, 50);
+
+    printf("\n");
+    printf("===Input string: '%s'===\n", paragraph6);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph6, 15);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph6, 25);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph6, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph6, 50);
+
+    printf("==========================SAMPLE TEST CASES FROM ASSIGNMENT 1_ver2==========================\n\n");
+    char paragraph[] = "Hi everyone. This is the 2nd assignment. "
+                       "Please make sure you start early as this is going to take some time!";
+
+    char paragraphLeadingSpaces[] = "   Hi everyone. This is the 2nd assignment. "
+                                    "Please make sure you start early as this is going to take some time!";
+
+    char paragraphTrailingSpaces[] = "Hi everyone. This is the 2nd assignment. "
+                                     "Please make sure you start early as this is going to take some time!    ";
+
+    char paragraphTrailingAndLeadingSpaces[] = "      Hi everyone. This is the 2nd assignment. "
+                                               "Please make sure you start early as this is going to take some time!    ";
+
+    char paragraphMiddleSpaces[] = "Hi everyone. This is the           2nd assignment. "
+                                   "Please make sure you start early as this is going to take some time!    ";
+
+    char singleLetters[] = " s i n g l e  l e t t e r s .";
+
+    /* The following variables are used for the error unit tests on lines 220 - 224 */
+    char wordExceedsMAX_WORD_LENGTH[] = "Hieveryone.Thisisthe2nd assignment.";
+
+    char paragraphExceedsMAX_NUMBER_OF_WORDS[] = "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!"
+                                                 "Hi everyone. This is the 2nd assignment. "
+                                                 "Please make sure you start early as this is going to take some time!";
+
+    char tokenExceedsLineLength[] = "Hi everyone. This is the 2nd assignment.";
+
+    /* Unit Tests */
+    justifyAndPrintParagraph(paragraph, 11);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph, 25);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph, 100);
+    printf("\n");
+    justifyAndPrintParagraph(paragraph, 120);
+    printf("\n");
+    justifyAndPrintParagraph(paragraphLeadingSpaces, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraphTrailingSpaces, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraphMiddleSpaces, 35);
+    printf("\n");
+    justifyAndPrintParagraph(paragraphTrailingAndLeadingSpaces, 35);
+    printf("\n");
+    justifyAndPrintParagraph(singleLetters, 35);
     printf("\n");
 
-    lineLength = 50;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test1, lineLength);
+    printf("==========================SAMPLE TEST CASES FROM RUBRIC FOR ASSIGNMENT 1==========================\n\n");
+    char testParagraph[] = "         I am here to learn C programming. This is my first assignment.   It took longer than I expected.   Wish me luck!!     ";
+    char testParagraph2[] = "Reading short stories in English is a great way to improve your language level. You will improve your reading fluency and comprehension and develop your vocabulary.";
+    char testParagraph3[] = "          This is a sentence with only leading whitespace and no ending whitespace.";
+    char testParagraph4[] = "This is a sentence with only trailing whitespace and no leading whitespace.            ";
+
+    printf("===Input: '%s'===\n", testParagraph);
     printf("\n");
 
-    char test2[] = "Many of failures are people who did not realize how "
-                   "close they were to success when they gave up.";
-    printf("[Test Case 2 : %s]\n\n", test2);
-
-    lineLength = 8;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test2, lineLength);
+    justifyAndPrintParagraph(testParagraph, 30);
     printf("\n");
-
-    lineLength = 100;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test2, lineLength);
+    justifyAndPrintParagraph(testParagraph, 50);
     printf("\n");
-
-    char test3[] = "People who succeed have momentum. The more they succeed, the more they want to succeed, "
-                   "and the more they find a way to succeed. Similarly, when someone is failing, "
-                   "the tendency is to get on a downward spiral that can even become a self-fulfilling prophecy.";
-    printf("[Test Case 3 : %s]\n\n", test3);
-
-    lineLength = 20;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test3, lineLength);
+    justifyAndPrintParagraph(testParagraph, 85);
     printf("\n");
+    justifyAndPrintParagraph(testParagraph, 120);
 
-    lineLength = 150;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test3, lineLength);
     printf("\n");
-
-
-    char test4[] = "    I like C. I live Java. I like programming. What's not to like?    ";
-    lineLength = 12;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test4, lineLength);
+    printf("===Input: '%s'===\n", testParagraph2);
+    justifyAndPrintParagraph(testParagraph2, 15);
     printf("\n");
-
-    lineLength = 100;
-    printf("Line Length: %d\n", lineLength);
-    justifyAndPrintParagraph(test4, lineLength);
+    justifyAndPrintParagraph(testParagraph2, 25);
     printf("\n");
+    justifyAndPrintParagraph(testParagraph2, 100);
+
+    printf("\n");
+    printf("===Input: '%s'===\n", testParagraph3);
+    printf("\n");
+    justifyAndPrintParagraph(testParagraph3, 15);
+
+    printf("\n");
+    printf("===Input string: '%s'===\n", testParagraph4);
+    printf("\n");
+    justifyAndPrintParagraph(testParagraph4, 25);
+    printf("\n");
+    justifyAndPrintParagraph(testParagraph4, 95);
 
     return 0;
 }
