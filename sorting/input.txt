@@ -1,0 +1,6 @@
+Apple   2099
+Lenovo  989
+Acer    1700
+Sony    1199
+HP      1508
+Dell    1999
