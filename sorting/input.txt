@@ -4,3 +4,17 @@ Acer    1700
 Sony    1199
 HP      1508
 Dell    1999
+Apple   1900
+Lenovo  980
+Acer    1680
+Sony    1099
+HP      1408
+Dell    1799
+Apple   2699
+Lenovo  1029
+Acer    1800
+Sony    1299
+HP      1608
+Dell    1899
+Apple   3299
+Lenovo  1399
