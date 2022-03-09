@@ -8,12 +8,10 @@
 #define MAX_LENGTH (100)
 #define NUM_SPACE (15)
 
-typedef struct laptop Laptop;
-
-struct laptop {
+typedef struct laptop {
     char brand[MAX_LENGTH];
     float price;
-};
+} Laptop;
 
 void numArgCheck(int argc);
 
@@ -52,7 +50,8 @@ void numArgCheck(int argc) {
 }
 
 /**
- * Opens the input file, read the input and store them into arrays
+ * Opens the input file, read the input and store them into struct laptop
+ * Also sorts the struct data by price using quick sort function
  * Terminates the program if either is NULL
  * @param fileName
  * @param brandList
@@ -76,13 +75,20 @@ void fileSetting(char *fileName, Laptop *each_laptop, long desiredOutput) {
         sscanf(eachLine, "%s %s", each_laptop[numProducts - 1].brand, price);
         each_laptop[numProducts - 1].price = strtof(price, NULL);
     }
-
+    //Using quick sort to sort the struct by price
     qsort(each_laptop, numProducts, sizeof(*each_laptop), comparePrice);
     display(each_laptop, numProducts, (int) desiredOutput);
     fclose(readFile);
     free(each_laptop);
 }
 
+/**
+ * Returns the difference between two prices of struct
+ * helper method to support qsort function
+ * @param p void*
+ * @param q void*
+ * @return int
+ */
 int comparePrice(const void *p, const void *q) {
     float firstPrice = ((struct laptop *) p)->price;
     float secondPrice = ((struct laptop *) q)->price;
@@ -90,6 +96,12 @@ int comparePrice(const void *p, const void *q) {
     return (int) (firstPrice - secondPrice);
 }
 
+/**
+ * Reallocates the memory of struct to increase with numProducts
+ * @param each_laptop Laptop*
+ * @param numProducts int
+ * @return Laptop*
+ */
 Laptop *laptop_realloc(Laptop *each_laptop, int numProducts){
     each_laptop = (Laptop *) realloc(each_laptop, sizeof(*each_laptop) * numProducts);
     if (each_laptop == NULL) {
