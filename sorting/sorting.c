@@ -5,49 +5,44 @@
 #define NUM_OF_ARGS (3)
 #define FILE_INDEX (1)
 #define NUM_INDEX (2)
-#define MAX_INPUT (1000)
 #define MAX_LENGTH (100)
+#define NUM_SPACE (15)
 
-struct laptop{
+typedef struct laptop Laptop;
+
+struct laptop {
     char brand[MAX_LENGTH];
     float price;
 };
 
 void numArgCheck(int argc);
-int fileSetting(char *fileName, char brandList[MAX_INPUT][MAX_LENGTH], float priceList[MAX_INPUT]);
-void structSetting(int numOfProduct, long desiredOutput, struct laptop *each_laptop,
-                   char brandList[MAX_INPUT][MAX_LENGTH], float priceList[MAX_INPUT]);
-void display(struct laptop *each_laptop, int numOfProducts);
-void swap(struct laptop *laptop1, struct laptop *laptop2);
-int partition(struct laptop *each_laptop, int low, int high);
-void quickSort(struct laptop *each_laptop, int low, int high);
 
-int main(int argc, char *argv[]){
+void fileSetting(char *fileName, Laptop *each_laptop, long desiredOutput);
+
+void display(struct laptop *each_laptop, int totalProduct, int numProductPrint);
+
+int comparePrice(const void *p, const void *q);
+
+Laptop *laptop_realloc(Laptop *each_laptop, int numProducts);
+
+int main(int argc, char *argv[]) {
     numArgCheck(argc);
-
-    long desiredOutputNum = strtol(argv[NUM_INDEX], NULL, 10);
-    char brandList[MAX_INPUT][MAX_LENGTH];
-    float priceList[MAX_INPUT];
-
-    int numOfProducts = fileSetting(argv[FILE_INDEX], brandList, priceList);
-
-    struct laptop *each_laptop = malloc(numOfProducts * sizeof (*each_laptop));
-    if(each_laptop == NULL) {
-        printf(" No memory is allocated.");
+    Laptop *each_laptop = (Laptop *) malloc(sizeof(*each_laptop));
+    if (each_laptop == NULL) {
+        printf("No memory is allocated.");
         exit(EXIT_SUCCESS);
     }
+    long desiredOutputNum = strtol(argv[NUM_INDEX], NULL, 10);
 
-    structSetting(numOfProducts, desiredOutputNum, each_laptop, brandList, priceList);
+    fileSetting(argv[FILE_INDEX], each_laptop, desiredOutputNum);
 
     return 0;
 }
-
 
 /**
  * Checks the number of arguments and terminates the program
  * if it's not equal to the expected number, 3
  * @param argc
- * @param fileName
  */
 void numArgCheck(int argc) {
     if (argc != NUM_OF_ARGS) {
@@ -57,101 +52,71 @@ void numArgCheck(int argc) {
 }
 
 /**
- * Opens the input file and creates a temp file.
+ * Opens the input file, read the input and store them into arrays
  * Terminates the program if either is NULL
  * @param fileName
+ * @param brandList
+ * @param priceList
  */
-int fileSetting(char *fileName, char brandList[MAX_INPUT][MAX_LENGTH], float priceList[MAX_INPUT]){
-    FILE *readFile = fopen(fileName, "r");
 
+void fileSetting(char *fileName, Laptop *each_laptop, long desiredOutput) {
+    FILE *readFile = fopen(fileName, "r");
     if (readFile == NULL) {
         printf("\nError! Cannot open file(s)\n");
         exit(EXIT_SUCCESS);
     }
 
+    int numProducts = 0;
     char eachLine[MAX_LENGTH];
-    int index = 0;
 
-    while(fgets(eachLine, MAX_LENGTH, readFile) != NULL){
-        sscanf(eachLine, "%s %f", brandList[index], &priceList[index]);
-        index++;
+    while (fgets(eachLine, MAX_LENGTH, readFile) != NULL) {
+        numProducts++;
+        each_laptop = laptop_realloc(each_laptop, numProducts);
+        char price[MAX_LENGTH];
+        sscanf(eachLine, "%s %s", each_laptop[numProducts - 1].brand, price);
+        each_laptop[numProducts - 1].price = strtof(price, NULL);
     }
 
+    qsort(each_laptop, numProducts, sizeof(*each_laptop), comparePrice);
+    display(each_laptop, numProducts, (int) desiredOutput);
     fclose(readFile);
-
-    return index;
-}
-
-void structSetting(int numOfProduct, long desiredOutput, struct laptop *each_laptop,
-        char brandList[MAX_INPUT][MAX_LENGTH], float priceList[MAX_INPUT]){
-    for(int index = 0; index < numOfProduct; index++){
-        strcpy(each_laptop[index].brand, brandList[index]);
-        each_laptop[index].price = priceList[index];
-    }
-
-    int maxIndex = (int) desiredOutput;
-
-    quickSort(each_laptop, 0, --numOfProduct);
-    each_laptop = (struct laptop*) realloc(each_laptop, maxIndex * sizeof (*each_laptop));
-    display(each_laptop, maxIndex);
     free(each_laptop);
 }
 
-void swap(struct laptop *laptop1, struct laptop *laptop2) {
-    struct laptop temp = *laptop1;
-    *laptop1 = *laptop2;
-    *laptop2 = temp;
+int comparePrice(const void *p, const void *q) {
+    float firstPrice = ((struct laptop *) p)->price;
+    float secondPrice = ((struct laptop *) q)->price;
+
+    return (int) (firstPrice - secondPrice);
 }
 
-// function to find the partition position
-int partition(struct laptop *each_laptop, int low, int high) {
-
-    // select the rightmost element as pivot
-    float pivot = each_laptop[high].price;
-
-    // pointer for greater element
-    int i = (low - 1);
-
-    // traverse each element of the array
-    // compare them with the pivot
-    for (int j = low; j < high; j++) {
-        if (each_laptop[j].price <= pivot) {
-
-            // if element smaller than pivot is found
-            // swap it with the greater element pointed by i
-            i++;
-
-            // swap element at i with element at j
-            swap(&each_laptop[i], &each_laptop[j]);
-        }
+Laptop *laptop_realloc(Laptop *each_laptop, int numProducts){
+    each_laptop = (Laptop *) realloc(each_laptop, sizeof(*each_laptop) * numProducts);
+    if (each_laptop == NULL) {
+        printf("No memory is allocated");
+        exit(EXIT_SUCCESS);
     }
 
-    // swap the pivot element with the greater element at i
-    swap(&each_laptop[i + 1], &each_laptop[high]);
-
-    // return the partition point
-    return (i + 1);
+    return each_laptop;
 }
 
-void quickSort(struct laptop *each_laptop, int low, int high) {
-    if (low < high) {
+/**
+ * display laptop product information for the number of "numProductPrint"
+ * @param each_laptop
+ * @param numOfProducts
+ */
+void display(struct laptop *each_laptop, int totalProduct, int numProductPrint) {
+    int numProduct = totalProduct < numProductPrint ? totalProduct : numProductPrint;
 
-        // find the pivot element such that
-        // elements smaller than pivot are on left of pivot
-        // elements greater than pivot are on right of pivot
-        int pi = partition(each_laptop, low, high);
+    printf("Brand");
+    for (int tab = 0; tab < NUM_SPACE - strlen("Brand"); tab++) { printf(" "); }
+    printf("Price\n");
 
-        // recursive call on the left of pivot
-        quickSort(each_laptop, low, pi - 1);
-
-        // recursive call on the right of pivot
-        quickSort(each_laptop, pi + 1, high);
-    }
-}
-
-void display(struct laptop *each_laptop, int numOfProducts){
-    for (int index = 0; index < numOfProducts; index++) {
-        printf("%s %.0f\n", each_laptop[index].brand, each_laptop[index].price);
+    for (int index = 0; index < numProduct; index++) {
+        printf("%s", each_laptop->brand);
+        for (int tab = 0; tab < NUM_SPACE - strlen(each_laptop->brand); tab++) { printf(" "); }
+        printf("%.2f\n", each_laptop->price);
+        each_laptop++;
     }
     printf("\n");
 }
