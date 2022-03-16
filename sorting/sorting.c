@@ -6,7 +6,7 @@
 #define FILE_INDEX (1)
 #define NUM_INDEX (2)
 #define MAX_LENGTH (100)
-#define NUM_SPACE (15)
+#define NUM_SPACE (30)
 
 typedef struct laptop {
     char brand[MAX_LENGTH];
