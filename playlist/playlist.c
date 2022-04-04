@@ -21,7 +21,9 @@ void nextSong(Playlist *album);
 void previousSong(Playlist *album);
 void delete_first(Playlist **album);
 void delete_last(Playlist **album);
+void exist(Playlist *temp, char* title);
 void deleteSong(Playlist **album, char* title);
+void free_album(Playlist** album);
 
 int main() {
     Playlist *album = NULL;
@@ -41,6 +43,8 @@ int main() {
     searchSong(&album, "Ideal 30 days");
     searchSong(&album, "Maki Madni");
     deleteSong(&album, "Memories");
+
+    free_album(&album);
 
     return 0;
 }
@@ -181,6 +185,8 @@ void delete_first(Playlist **album){
 
     if((*album)->next == NULL){
         *album = NULL;
+    }else if((*album)->next == NULL && (*album)->prev == NULL){
+        *album = NULL;
     }else{
         Playlist *temp = *album;
         *album = (*album)->next;
@@ -194,48 +200,61 @@ void delete_last(Playlist **album){
 
     if((*album)->next == NULL){
         *album = NULL;
+    }else if((*album)->next == NULL && (*album)->prev == NULL){
+        *album = NULL;
     }else{
-        Playlist * temp = *album;
-
+        Playlist *temp = *album;
         while(temp->next != NULL){
             temp = temp->next;
         }
-
         temp->prev->next = NULL;
         free(temp);
+    }
+}
+
+void exist(Playlist *temp, char* title){
+    if(temp->next == NULL && strcmp(temp->title, title)){
+        printf("%s, does not exist so cannot delete\n", title);
+        exit(EXIT_SUCCESS);
     }
 }
 
 void deleteSong(Playlist **album, char* title){
     checkNull(album);
     printf("Song Deleted:\n");
-    if(*album == NULL){
-        printf("Playlist is empty.\n");
-        exit(EXIT_SUCCESS);
-    }
 
-    Playlist *dest = *album;
-    Playlist *dest2 = NULL;
+    Playlist *temp1 = *album;
+    Playlist *temp2 = NULL;
 
-    while(dest->next!= NULL && strcmp(dest->title, title)) {
-        dest = dest->next;
-    }
+    while(temp1->next!= NULL && strcmp(temp1->title, title)) temp1 = temp1->next;
+    exist(temp1, title);
+    printf("%s, %s\n", temp1->title, temp1->singer);
 
-    if(dest->next == NULL && strcmp(dest->title, title)){
-        printf("%s, does not exist so cannot delete\n", title);
-        exit(EXIT_SUCCESS);
-    }
-
-    printf("%s, %s\n", dest->title, dest->singer);
-
-    if(!strcmp(dest->title, title) && dest->prev == NULL) {delete_first(album);}
-    else if(!strcmp(dest->title, title) && dest->next == NULL){delete_last(album);}
+    if(!strcmp(temp1->title, title) && temp1->prev == NULL) {delete_first(album);}
+    else if(!strcmp(temp1->title, title) && temp1->next == NULL){delete_last(album);}
     else{
-        dest2 = dest->prev;
-        dest->next->prev = dest2;
-        dest2->next = dest->next;
-        free(dest);
+        temp2 = temp1->prev;
+        temp1->next->prev = temp2;
+        temp2->next = temp1->next;
+        free(temp1);
     }
     printf("\n");
+}
+
+void free_album(Playlist** album){
+    checkNull(&album);
+
+    if((*album)->prev == NULL){
+        *album = NULL;
+    }
+
+    Playlist* current = *album;
+    Playlist * temp = NULL;
+
+    while(current != NULL){
+        temp = current;
+        current = current->next;
+        free(temp);
+    }
 }
 
