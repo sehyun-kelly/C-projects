@@ -49,6 +49,10 @@ int main() {
     return 0;
 }
 
+/**
+ * Checks if the playlist is empty and terminates the program if it is
+ * @param album Playlist**
+ */
 void checkNull(Playlist **album){
     if(*album == NULL){
         printf("Playlist is empty!\n");
@@ -56,6 +60,12 @@ void checkNull(Playlist **album){
     }
 }
 
+/**
+ * Adds songs to the album
+ * @param album Playlist**
+ * @param title char*
+ * @param singer char*
+ */
 void addSong(Playlist **album, char *title, char *singer) {
     Playlist *new_album = (Playlist *) malloc(sizeof(Playlist));
     if (new_album == NULL) {
@@ -81,6 +91,10 @@ void addSong(Playlist **album, char *title, char *singer) {
     new_album->prev = last;
 }
 
+/**
+ * Displays the playlist in reverse
+ * @param album Playlist*
+ */
 void displayPlaylistReverse(Playlist *album){
     checkNull(&album);
     Playlist *last = album;
@@ -99,6 +113,10 @@ void displayPlaylistReverse(Playlist *album){
     printf("\n");
 }
 
+/**
+ * Displays the playlist in order
+ * @param album Playlist*
+ */
 void displayPlaylist(Playlist *album){
     checkNull(&album);
     Playlist *first = album;
@@ -117,6 +135,10 @@ void displayPlaylist(Playlist *album){
     printf("\n");
 }
 
+/**
+ * Displays the current song
+ * @param album Playlist*
+ */
 void currentSong(Playlist *album){
     checkNull(&album);
     printf("Current Song:\n");
@@ -124,6 +146,10 @@ void currentSong(Playlist *album){
     printf("\n");
 }
 
+/**
+ * Displays the next song
+ * @param album Playlist*
+ */
 void nextSong(Playlist *album){
     checkNull(&album);
     Playlist *temp = album;
@@ -137,6 +163,10 @@ void nextSong(Playlist *album){
     printf("\n");
 }
 
+/**
+ * Displays the previous song
+ * @param album Playlist*
+ */
 void previousSong(Playlist *album){
     checkNull(&album);
     Playlist *temp = album;
@@ -150,6 +180,11 @@ void previousSong(Playlist *album){
     printf("\n");
 }
 
+/**
+ * Searches the given song in the playlist
+ * @param album Playlist**
+ * @param title char*
+ */
 void searchSong(Playlist **album, char* title){
     checkNull(album);
     Playlist *temp = *album;
@@ -170,6 +205,12 @@ void searchSong(Playlist **album, char* title){
     printSearch(exist, title, dest);
 }
 
+/**
+ * Prints the result of searchSong function
+ * @param exist bool
+ * @param title char*
+ * @param dest Playlist*
+ */
 void printSearch(bool exist, char* title, Playlist *dest){
     printf("Searched Song:\n");
     if(!exist){
@@ -180,6 +221,10 @@ void printSearch(bool exist, char* title, Playlist *dest){
     printf("\n");
 }
 
+/**
+ * Deletes the first song of the playlist
+ * @param album Playlist**
+ */
 void delete_first(Playlist **album){
     checkNull(album);
 
@@ -195,6 +240,10 @@ void delete_first(Playlist **album){
     }
 }
 
+/**
+ * Deletes the last song of the playlist
+ * @param album Playlist**
+ */
 void delete_last(Playlist **album){
     checkNull(album);
 
@@ -212,6 +261,11 @@ void delete_last(Playlist **album){
     }
 }
 
+/**
+ * Checks if the song to delete exists in the playlist
+ * @param temp Playlist*
+ * @param title char*
+ */
 void exist(Playlist *temp, char* title){
     if(temp->next == NULL && strcmp(temp->title, title)){
         printf("%s, does not exist so cannot delete\n", title);
@@ -219,6 +273,11 @@ void exist(Playlist *temp, char* title){
     }
 }
 
+/**
+ * Deletes the given song from the playlist
+ * @param album Playlist**
+ * @param title char*
+ */
 void deleteSong(Playlist **album, char* title){
     checkNull(album);
     printf("Song Deleted:\n");
@@ -241,6 +300,10 @@ void deleteSong(Playlist **album, char* title){
     printf("\n");
 }
 
+/**
+ * Frees the memory of the remaining playlist
+ * @param album Playlist**
+ */
 void free_album(Playlist** album){
     checkNull(&album);
 
