@@ -1,8 +1,9 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+#define EQUAL (0)
 
 typedef struct Playlist {
     char* title;
@@ -228,11 +229,9 @@ void printSearch(bool exist, char* title, Playlist *dest){
 void delete_first(Playlist **album){
     checkNull(album);
 
-    if((*album)->next == NULL){
+    if ((*album)->next == NULL && (*album)->prev == NULL) {
         *album = NULL;
-    }else if((*album)->next == NULL && (*album)->prev == NULL){
-        *album = NULL;
-    }else{
+    } else {
         Playlist *temp = *album;
         *album = (*album)->next;
         (*album)->prev = NULL;
@@ -247,9 +246,7 @@ void delete_first(Playlist **album){
 void delete_last(Playlist **album){
     checkNull(album);
 
-    if((*album)->next == NULL){
-        *album = NULL;
-    }else if((*album)->next == NULL && (*album)->prev == NULL){
+    if((*album)->next == NULL && (*album)->prev == NULL){
         *album = NULL;
     }else{
         Playlist *temp = *album;
@@ -267,7 +264,7 @@ void delete_last(Playlist **album){
  * @param title char*
  */
 void exist(Playlist *temp, char* title){
-    if(temp->next == NULL && strcmp(temp->title, title)){
+    if(temp->next == NULL && strcmp(temp->title, title) != EQUAL){
         printf("%s, does not exist so cannot delete\n", title);
         exit(EXIT_SUCCESS);
     }
@@ -285,7 +282,7 @@ void deleteSong(Playlist **album, char* title){
     Playlist *temp1 = *album;
     Playlist *temp2 = NULL;
 
-    while(temp1->next!= NULL && strcmp(temp1->title, title)) temp1 = temp1->next;
+    while(temp1->next!= NULL && strcmp(temp1->title, title) != EQUAL) temp1 = temp1->next;
     exist(temp1, title);
     printf("%s, %s\n", temp1->title, temp1->singer);
 
@@ -305,7 +302,7 @@ void deleteSong(Playlist **album, char* title){
  * @param album Playlist**
  */
 void free_album(Playlist** album){
-    checkNull(&album);
+    checkNull(album);
 
     if((*album)->prev == NULL){
         *album = NULL;
